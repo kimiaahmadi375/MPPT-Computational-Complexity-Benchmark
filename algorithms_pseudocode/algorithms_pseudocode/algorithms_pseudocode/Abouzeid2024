@@ -1,0 +1,59 @@
+# =============================================================
+# ONLINE ANN-TI MPPT (Implementation-free, per-iteration pseudocode)
+# Inputs:  T(k), Iin(k)     Output: duty ds(k)
+# Runs every MPPT sampling instant (real-time controller).
+# =============================================================
+
+# ANN model parameters (fixed after offline training)
+# A feedforward fully-connected network with:
+#   Layer 0 (input):  n0 = 2  -> [T, I]
+#   Hidden layers:    l = 1..H, sizes n1..nH
+#   Layer H+1 (output): n_{H+1} = 1 -> [ds]
+#
+# Weight matrices:   W[l] has size (n_l × n_{l-1})
+# Bias vectors:      b[l] has size (n_l × 1)
+# Activation funcs:  f[l](·) for hidden layers (and possibly output layer)
+
+procedure ANN_TI_MPPT_ONE_ITERATION():
+
+    # (1) Acquire measurements (sensing cost is excluded in algorithm cost unless you count it)
+    T  := measure_temperature()
+    I  := measure_pv_current()
+
+    # (2) Form ANN input vector
+    a_prev[1] := T
+    a_prev[2] := I
+    # a_prev is a vector of length n0 = 2
+
+    # (3) Forward pass through ANN (this is the computational core)
+    for l = 1 to (H + 1):
+
+        # z = W[l] * a_prev + b[l]
+        # Compute each neuron i in layer l:
+        for i = 1 to n_l:
+
+            acc := 0
+            for j = 1 to n_{l-1}:
+                acc := acc + ( W[l][i,j] * a_prev[j] )
+            end for
+
+            z[i] := acc + b[l][i]
+
+        end for
+
+        # Apply activation to get a_l
+        for i = 1 to n_l:
+            a[i] := f[l]( z[i] )
+        end for
+
+        a_prev := a
+
+    end for
+
+    # (4) Output duty cycle command (single output neuron)
+    ds := a_prev[1]
+
+    # (5) Apply duty cycle to PWM / converter switch
+    apply_duty(ds)
+
+end procedure
