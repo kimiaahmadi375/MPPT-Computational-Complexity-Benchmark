@@ -1,0 +1,15 @@
+Operation,Normalized_Cost_X,Notes
+ADD,1,10-bit fixed-point addition (reference)
+SUB,1,Same cost as ADD
+MUL,10,Fixed-point multiplication
+DIV,20,Restoring or non-restoring division
+CMP,2,Comparison operation
+ABS,12,Sign check and conditional negate
+SHIFT,0.2,Logical or arithmetic shift
+LOGIC,0.1,AND/OR/XOR
+MIN_MAX,2.2,Comparator plus selection
+EXP,40,Polynomial or LUT-based approximation
+LOG,40,Polynomial or LUT-based approximation
+POWER,100,Exponentiation or power function
+LUT,2,Memory lookup (FLC inference)
+ANN,741,Matrix-vector multiply + activation
