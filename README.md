@@ -1,4 +1,7 @@
 # MPPT-Computational-Complexity-Benchmark
+
+**Zenodo DOI:** https://doi.org/10.5281/zenodo.18198514
+
 Pseudocode and benchmarking resources supporting a Scientific Reports study on MPPT computational complexity.
 # MPPT Computational Complexity Benchmarking Resources
 
