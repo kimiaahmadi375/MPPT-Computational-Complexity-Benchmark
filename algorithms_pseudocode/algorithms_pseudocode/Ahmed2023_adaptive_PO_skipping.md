@@ -1,5 +1,6 @@
 # -------------------------------------------------------------
 # Ahmed2023 – Adaptive P&O With Enhanced Skipping Feature
+# This pseudocode was reconstructed from the published flowchart/description and used for operation-level complexity counting (worst-case iteration).
 # -------------------------------------------------------------
 # Interfaces
 #   measure_voltage()  → Vpv(k)
